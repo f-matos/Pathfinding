@@ -8,9 +8,13 @@ Visit https://f-matos.github.io/Pathfinding/ for demo!
 
 # Installation & Usage
 Install it as normal. Something like:
+
 `yarn install` or `npm install` and then
+
 `yarn start` or `npm start`
+
 You might have to change `--host` parameter from `0.0.0.0`  to `localhost` in `package.json`.
+
 
 # Features
 
@@ -21,10 +25,8 @@ Select one (single click) and on the grid, drag it around (exactly like you do w
 
 # Initial Results
 
+A* tries for a bit to dodge the slightly costilier Pink tiles but soon decides to cross it
 ![Medium pathing](https://github.com/f-matos/Pathfinding/blob/master/docs/example1.png)
 
-A* tries for a bit to dodge the slightly costilier Pink tiles but soon decides to cross it
-
-![Heavy pathing](https://github.com/f-matos/Pathfinding/blob/master/docs/example2.png)
-
 A* wants nothing to do with that expensive brick and goes to great lenghts to avoid it.
+![Heavy pathing](https://github.com/f-matos/Pathfinding/blob/master/docs/example2.png)
