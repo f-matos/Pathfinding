@@ -5,6 +5,10 @@
 import Raphael from 'raphael'
 import async from 'async'
 
+function pair(x, y){
+    return ((x + y) * (x + y + 1)) / 2 + y;
+}
+
 export default {
     nodeSize: 30, // width and height of a single node, in pixel
     nodeStyle: {
@@ -40,6 +44,22 @@ export default {
             fill: '#e5e5e5',
             'stroke-opacity': 0.2,
         },
+        light: {
+            fill: 'white',
+            'stroke-opacity': 0.2
+        },
+        medium: {
+            fill: '#ff80ff',
+            'stroke-opacity': 0.2
+        },
+        heavy: {
+            fill: '#0000ff',
+            'stroke-opacity': 0.2
+        },
+        'very-heavy': {
+            fill: '#800000',
+            'stroke-opacity': 0.2
+        }
     },
     nodeColorizeEffect: {
         duration: 50,
@@ -77,6 +97,7 @@ export default {
             numRows     = this.numRows,
             paper       = this.paper,
             rects       = this.rects = [],
+            circles     = this.circles = [],
             $stats      = this.$stats;
 
         paper.setSize(numCols * nodeSize, numRows * nodeSize);
@@ -132,6 +153,16 @@ export default {
             this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
     },
+    drawCircle: function(gridX, gridY, color){
+        const coord = this.toPageCoordinate(gridX, gridY)
+        const paired = pair(gridX, gridY)
+        let circle = this.circles[paired]
+        if(!circle){
+            circle = this.paper.circle(coord[0] + this.nodeSize/2, coord[1] + this.nodeSize/2, 10)
+            this.circles[paired] = circle
+        }
+        circle.attr('fill', color)
+    },
     setEndPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.endNode) {
@@ -157,16 +188,17 @@ export default {
             this.setWalkableAt(gridX, gridY, value);
             break;
         case 'opened':
-            this.colorizeNode(this.rects[gridY][gridX], nodeStyle.opened.fill);
+            //this.colorizeNode(this.rects[gridY][gridX], nodeStyle.opened.fill);
+            this.drawCircle(gridX, gridY, nodeStyle.opened.fill);
             this.setCoordDirty(gridX, gridY, true);
             break;
         case 'closed':
-            this.colorizeNode(this.rects[gridY][gridX], nodeStyle.closed.fill);
+            //this.colorizeNode(this.rects[gridY][gridX], nodeStyle.closed.fill);
+            this.drawCircle(gridX, gridY, nodeStyle.closed.fill);
             this.setCoordDirty(gridX, gridY, true);
             break;
         case 'tested':
             color = (value === true) ? nodeStyle.tested.fill : nodeStyle.normal.fill;
-
             this.colorizeNode(this.rects[gridY][gridX], color);
             this.setCoordDirty(gridX, gridY, true);
             break;
@@ -175,7 +207,12 @@ export default {
             // This would be expensive.
             break;
         default:
-            console.error('unsupported operation: ' + attr + ':' + value);
+            if(nodeStyle[attr] !== undefined){
+                this.colorizeNode(this.rects[gridY][gridX], nodeStyle[attr].fill);
+                //this.setCoordDirty(gridX, gridY, true);
+            }else{
+                console.error('unsupported operation: ' + attr + ':' + value);
+            }
             return;
         }
     },
@@ -226,7 +263,9 @@ export default {
             coord = coords[i];
             x = coord[0];
             y = coord[1];
-            this.rects[y][x].attr(this.nodeStyle.normal);
+            //this.rects[y][x].attr(this.nodeStyle.normal);
+            this.circles[pair(x, y)].remove();
+            this.circles[pair(x, y)] = false;
             this.setCoordDirty(x, y, false);
         }
     },

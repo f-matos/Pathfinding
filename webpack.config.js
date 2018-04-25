@@ -8,6 +8,9 @@ module.exports = {
         path: __dirname + '/dist',
         filename: 'index_bundle.js'
     },
+    devServer: {
+      disableHostCheck: true,  //C9 compatibility
+    },
     module: {
         rules: [
             {
@@ -17,7 +20,8 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env']
+                        presets: ['@babel/preset-env'],
+                        plugins: ["transform-class-properties"]
                     }
                 }
             }

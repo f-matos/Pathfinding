@@ -74,6 +74,7 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     // while the open list is not empty
     while (!openList.empty()) {
         // pop the position of node which has the minimum `f` value.
+        console.log(node)
         node = openList.pop();
         node.closed = true;
 

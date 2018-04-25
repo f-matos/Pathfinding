@@ -7,10 +7,10 @@
 import * as PF from "../PathFinding";
 import View from './view'
 import Panel from './panel'
-import StateMachine from 'javascript-state-machine'
-let Controller = new StateMachine({
-    init: 'none',
-    transitions: [
+import StateMachine from './state-machine'
+let Controller = StateMachine.create({
+    initial: 'none',
+    events: [
         {
             name: 'init',
             from: 'none',
@@ -101,7 +101,6 @@ $.extend(Controller, {
      * Asynchronous transition from `none` state to `ready` state.
      */
     onleavenone: function() {
-        console.log("aaaaaaa")
         var numCols = this.gridSize[0],
             numRows = this.gridSize[1];
 
@@ -125,7 +124,13 @@ $.extend(Controller, {
         // => ready
     },
     ondrawWall: function(event, from, to, gridX, gridY) {
-        this.setWalkableAt(gridX, gridY, false);
+        let el = $("#active_style")
+            let active = el.html()
+            if(active == "blocked"){
+                this.setWalkableAt(gridX, gridY, false);
+            }else{
+                this.setStyleAt(gridX, gridY, active, el.attr("weight"));
+            }
         // => drawingWall
     },
     oneraseWall: function(event, from, to, gridX, gridY) {
@@ -430,7 +435,13 @@ $.extend(Controller, {
             }
             break;
         case 'drawingWall':
-            this.setWalkableAt(gridX, gridY, false);
+            let el = $("#active_style")
+            let active = el.html()
+            if(active == "blocked"){
+                this.setWalkableAt(gridX, gridY, false);
+            }else{
+                this.setStyleAt(gridX, gridY, active, el.attr("weight"));
+            }
             break;
         case 'erasingWall':
             this.setWalkableAt(gridX, gridY, true);
@@ -499,6 +510,10 @@ $.extend(Controller, {
     setWalkableAt: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable);
+    },
+    setStyleAt: function(gridX, gridY, style, weight){
+        this.grid.getNodeAt(gridX, gridY).weight = parseInt(weight)
+        View.setAttributeAt(gridX, gridY, style);
     },
     isStartPos: function(gridX, gridY) {
         return gridX === this.startX && gridY === this.startY;

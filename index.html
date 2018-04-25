@@ -6,8 +6,6 @@
 
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/themes/jquery.ui.all.css" />
-
-    <script type="text/javascript" src="index_bundle.js"></script>
   </head>
   <body>
     <div id="draw_area"></div>
@@ -27,15 +25,23 @@
         <header>
             <h2 class="header_title">Tiles</h2>
         </header>
+        <div id="active_style" style="display:none">blocked</div>
         <button id="btnNewType">Create new Type</button>
-        <div class="rect" style="background-color: #808080"></div>
-        <div class="rect" style="background-color: #cd0a0a"></div>
+        <div class="rect" node="blocked" style="background-color: #808080"></div>
+        <div class="rect" node="light" weight="1" style="background-color: rgb(255, 255, 255)"></div>
+        <div class="rect" node="medium" weight="3" style="background-color: rgb(255, 128, 255)"></div>
+        <div class="rect" node="heavy" weight="5" style="background-color: rgb(0, 0, 255)"></div>
+        <div class="rect" node="very-heavy" weight="10" style="background-color: rgb(128, 0, 0)"></div>
     </div>
 
-    <div id="tile_edit" class="panel">
-        <input type="text" style="width: 40px;" id="name" placeholder="Name"/>
+    <div id="tile_edit" class="panel" style="display:none">
+        <input type="text" style="width: 100px;" id="name" placeholder="Name"/>
+        </br></br>
         <input type="color" id="color"/>
-        <input type="number" style="width: 20px;" id="weigth"/>
+        </br></br>
+        <input type="number" style="width: 80px;" id="weight" placeholder="Weight"/>
+        </br></br>
+        <button id="btnSaveType" style="width:auto;">Save</button>
     </div>
 
     <div id="algorithm_panel" class="panel right_panel">
