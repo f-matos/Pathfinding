@@ -45,6 +45,17 @@ function pathLength(path) {
 }
 exports.pathLength = pathLength;
 
+/**
+ * Compute the cost of the path.
+ * @param {Array<Array<number>>} path The path
+ * @return {number} The cost of the path
+ */
+function pathCost(path) {
+    console.log(path)
+    return 0
+}
+exports.pathCost = pathCost;
+
 
 /**
  * Given the start and end coordinates, return all the coordinates lying

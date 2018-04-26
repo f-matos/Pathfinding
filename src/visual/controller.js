@@ -181,8 +181,13 @@ $.extend(Controller, {
         // => ready
     },
     onfinish: function(event, from, to) {
+        let cost = 0
+        for (let i=0; i < this.path.length; i++){
+            let node = this.grid.getNodeAt(this.path[i][0], this.path[i][1])
+            cost += node.weight
+        }
         View.showStats({
-            pathLength: PF.Util.pathLength(this.path),
+            pathLength: cost,
             timeSpent:  this.timeSpent,
             operationCount: this.operationCount,
         });

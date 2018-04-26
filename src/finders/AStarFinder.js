@@ -102,6 +102,7 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             // check if the neighbor has not been inspected yet, or
             // can be reached with smaller cost from the current node
             if (!neighbor.opened || ng < neighbor.g) {
+                //neighbor.g = neighbor.weight + ng;
                 neighbor.g = ng;
                 neighbor.h = neighbor.h || weight * heuristic(abs(x - endX), abs(y - endY));
                 neighbor.f = neighbor.g + neighbor.h;
