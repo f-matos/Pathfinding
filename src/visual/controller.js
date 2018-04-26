@@ -148,6 +148,17 @@ $.extend(Controller, {
         this.path = finder.findPath(
             this.startX, this.startY, this.endX, this.endY, grid
         );
+        for(let i=0; i < this.operations.length; i++){
+            let op = this.operations[i]
+            if(op.attr !== 'opened') continue;
+            let clone = grid.nodes[op.x][op.y]
+            console.log(clone)
+            this.grid.nodes[op.x][op.y].values = {
+                g: clone.g,
+                h: clone.h,
+                f: clone.f
+            }
+        }
         this.operationCount = this.operations.length;
         timeEnd = window.performance ? performance.now() : Date.now();
         this.timeSpent = (timeEnd - timeStart).toFixed(4);
@@ -182,9 +193,10 @@ $.extend(Controller, {
     },
     onfinish: function(event, from, to) {
         let cost = 0
-        for (let i=0; i < this.path.length; i++){
-            let node = this.grid.getNodeAt(this.path[i][0], this.path[i][1])
-            cost += node.weight
+        for(let i=0; i< this.path.length;i++){
+            let x = this.path[i][0]
+            let y = this.path[i][1]
+            cost += this.grid.nodes[x][y].weight;
         }
         View.showStats({
             pathLength: cost,

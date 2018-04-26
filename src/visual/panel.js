@@ -46,9 +46,9 @@ export default {
                                      '.dont_cross_corners:checked').val() !=='undefined';
 
             /* parseInt returns NaN (which is falsy) if the string can't be parsed */
-            weight = parseInt($('#astar_section .spinner').val()) || 1;
-            weight = weight >= 1 ? weight : 1; /* if negative or 0, use 1 */
-
+            weight = parseFloat($("#astar_weight").val()) || 1;
+            weight = weight >= 0 ? weight : 1; /* if negative, use 1 */
+    console.log(weight)
             heuristic = $('input[name=astar_heuristic]:checked').val();
             if (biDirectional) {
                 finder = new PF.BiAStarFinder({

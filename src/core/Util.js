@@ -7,9 +7,11 @@
 function backtrace(node) {
     var path = [[node.x, node.y]];
     while (node.parent) {
+        node.solution = true;
         node = node.parent;
         path.push([node.x, node.y]);
     }
+    node.solution = true;
     return path.reverse();
 }
 exports.backtrace = backtrace;
