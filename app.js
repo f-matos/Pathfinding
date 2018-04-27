@@ -1,3 +1,6 @@
+import theme from './css/themes/jquery.ui.theme.css'
+import style from './css/style.css'
+
 import Raphael from "raphael";
 import Controller from "./src/visual/controller";
 import View from "./src/visual/view";
