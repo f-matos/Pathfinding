@@ -52,24 +52,6 @@ $(document).ready(() => {
             $("#active_style").attr("weight", el.attr("weight"));
         }
     })
-    $('#draw_area').mouseover(function(e){
-        if (e.target.tagName !== 'rect') {
-            return;
-        }
-        let popup = $('#node_data')
-        let pageX = e.target.getAttribute('x')
-        let pageY = e.target.getAttribute('y')
-        let coord = View.toGridCoordinate(pageX, pageY);
-        let node = Controller.grid.nodes[coord[0]][coord[1]];
-        //console.log(node)
-        let data = "";
-        if (node.values !== undefined) {
-            data = `g(x):${node.values.g} </br>h(x):${node.values.h} </br> f(x):${node.values.f}`
-        } else {
-            data = `g(x):</br>h(x):</br> f(x):`
-        }
-        popup.html(data);
-    })
 });
 
 // suppress select events

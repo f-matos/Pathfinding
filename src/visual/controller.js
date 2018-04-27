@@ -125,17 +125,21 @@ $.extend(Controller, {
     },
     ondrawWall: function(event, from, to, gridX, gridY) {
         let el = $("#active_style")
-            let active = el.html()
-            if(active == "blocked"){
-                this.setWalkableAt(gridX, gridY, false);
-            }else{
-                this.setStyleAt(gridX, gridY, active, el.attr("weight"));
-            }
+        let active = el.html()
+        if(active == "blocked"){
+            this.setWalkableAt(gridX, gridY, false);
+        }else{
+            this.setStyleAt(gridX, gridY, active, el.attr("weight"));
+        }
         // => drawingWall
     },
     oneraseWall: function(event, from, to, gridX, gridY) {
-        this.setWalkableAt(gridX, gridY, true);
-        console.log(View);
+        let el = $("#active_style")
+        let active = el.html()
+        if(active != "blocked"){
+            this.setWalkableAt(gridX, gridY, true);
+            this.setStyleAt(gridX, gridY, active, el.attr("weight"));
+        }
         // => erasingWall
     },
     onsearch: function(event, from, to) {
@@ -148,16 +152,11 @@ $.extend(Controller, {
         this.path = finder.findPath(
             this.startX, this.startY, this.endX, this.endY, grid
         );
-        for(let i=0; i < this.operations.length; i++){
-            let op = this.operations[i]
-            if(op.attr !== 'opened') continue;
-            let clone = grid.nodes[op.x][op.y]
-            console.log(clone)
-            this.grid.nodes[op.x][op.y].values = {
-                g: clone.g,
-                h: clone.h,
-                f: clone.f
-            }
+        this.pathNodes = []
+        for(let i=0; i < this.path.length; i++){
+            let x = this.path[i][0]
+            let y = this.path[i][1]
+            this.pathNodes.push(grid.getNodeAt(x, y));
         }
         this.operationCount = this.operations.length;
         timeEnd = window.performance ? performance.now() : Date.now();
@@ -193,10 +192,8 @@ $.extend(Controller, {
     },
     onfinish: function(event, from, to) {
         let cost = 0
-        for(let i=0; i< this.path.length;i++){
-            let x = this.path[i][0]
-            let y = this.path[i][1]
-            cost += this.grid.nodes[x][y].weight;
+        for(let i=0; i< this.pathNodes.length;i++){
+            cost += this.pathNodes[i].weight;
         }
         View.showStats({
             pathLength: cost,
@@ -439,7 +436,8 @@ $.extend(Controller, {
         if (this.isStartOrEndPos(gridX, gridY)) {
             return;
         }
-
+        let el = $("#active_style")
+        let selectedTileType = el.html()
         switch (this.current) {
         case 'draggingStart':
             if (grid.isWalkableAt(gridX, gridY)) {
@@ -452,16 +450,18 @@ $.extend(Controller, {
             }
             break;
         case 'drawingWall':
-            let el = $("#active_style")
-            let active = el.html()
-            if(active == "blocked"){
+            if(selectedTileType == "blocked"){
                 this.setWalkableAt(gridX, gridY, false);
             }else{
-                this.setStyleAt(gridX, gridY, active, el.attr("weight"));
+                this.setWalkableAt(gridX, gridY, true);
+                this.setStyleAt(gridX, gridY, selectedTileType, el.attr("weight"));
             }
             break;
         case 'erasingWall':
-            this.setWalkableAt(gridX, gridY, true);
+            if(selectedTileType != "blocked"){
+                this.setWalkableAt(gridX, gridY, true);
+                this.setStyleAt(gridX, gridY, selectedTileType, el.attr("weight"));
+            }
             break;
         }
     },
