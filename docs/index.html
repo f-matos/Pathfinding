@@ -3,13 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <title>PathFinding.js</title>
-
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/themes/jquery.ui.all.css" />
-  </head>
+  <link href="styles.css" rel="stylesheet"></head>
   <body>
     <div id="draw_area"></div>
-
+    <!--
     <div id="instructions_panel" class="panel">
       <header>
         <h2 class="header_title">Instructions</h2>
@@ -21,6 +18,7 @@
       Choose an algorithm from the right-hand panel. <br>
       Click Start Search in the lower-right corner to start the animation.
     </div>
+    -->
     <div id="tile_panel" class="panel">
         <header>
             <h2 class="header_title">Tiles</h2>
@@ -74,7 +72,7 @@
             <label class="option_label">Bi-directional</label> <br>
             <input type="checkbox" class="dont_cross_corners">
             <label class="option_label">Don't Cross Corners</label> <br>
-            <input class="spinner" name="astar_weight" value="1">
+            <input class="spinner" id="astar_weight" name="astar_weight" value="1">
             <label class="option_label">Weight</label> <br>
           </div>
         </div>
@@ -230,8 +228,9 @@
     <div id="stats"></div>
 
     <footer>
-      Project Hosted on <a href="https://github.com/f-matos/Pathfinding">Github</a>
+      Project Hosted on <a href="http://github.com/qiao/PathFinding.js">Github</a>
     </footer>
+    
 
   <script type="text/javascript" src="index_bundle.js"></script></body>
 </html>

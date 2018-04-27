@@ -6,7 +6,7 @@ module.exports = {
     mode: 'development',
     entry: './app.js',
     output: {
-        path: __dirname + '/dist',
+        path: __dirname + '/docs',
         filename: 'index_bundle.js'
     },
     devServer: {
